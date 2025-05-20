@@ -11,86 +11,222 @@
   <link rel="icon" type="image/png" href="https://static.readdy.ai/image/0cc4516bfb0690645c544babd37fe3fb/a9760d664bf155c08db6c21d9e11c8c7.png">
   <script src="https://cdn.tailwindcss.com/3.4.16"></script>
   <script>
-    tailwind.config = { theme: { extend: { colors: { primary: '#000000', secondary: '#999999' }, borderRadius: { 'button': '8px' } } } };
+    tailwind.config = { 
+      theme: { 
+        extend: { 
+          colors: { 
+            primary: '#000000', 
+            secondary: '#999999',
+            gold: '#D4AF37',
+            platinum: '#E5E4E2'
+          }, 
+          borderRadius: { 
+            'button': '8px',
+            'elite': '16px'
+          },
+          boxShadow: {
+            'elite': '0 0 30px rgba(212, 175, 55, 0.5)',
+            'elite-inner': 'inset 0 0 20px rgba(212, 175, 55, 0.3)'
+          }
+        } 
+      } 
+    };
     document.addEventListener('DOMContentLoaded', () => {
+      // Smooth scrolling
       document.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', e => {
           e.preventDefault();
           document.querySelector(link.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
         });
       });
+      
+      // Artist form validation
+      const artistForm = document.getElementById('artistForm');
+      if (artistForm) {
+        artistForm.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Simple validation
+          const name = this.querySelector('input[name="name"]');
+          const email = this.querySelector('input[name="email"]');
+          const portfolio = this.querySelector('input[name="portfolio"]');
+          
+          if (!name.value || !email.value || !portfolio.value) {
+            alert('Пожалуйста, заполните все обязательные поля');
+            return;
+          }
+          
+          // Show success message
+          document.getElementById('formSuccess').classList.remove('hidden');
+          this.reset();
+          
+          // You would normally send the form data to a server here
+          console.log('Form submitted:', {
+            name: name.value,
+            email: email.value,
+            portfolio: portfolio.value,
+            experience: this.querySelector('textarea[name="experience"]').value,
+            goals: this.querySelector('textarea[name="goals"]').value
+          });
+        });
+      }
     });
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
   <style>
-    :root { --primary: #000000; --secondary: #999999; --accent: #ffffff; }
-    body { font-family: 'Inter', sans-serif; background-color: var(--primary); color: var(--accent); overflow-x: hidden; }
-    .chrome-gradient { background: linear-gradient(135deg,#999 0%,#fff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .nav-blur { backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-    .section-divider { height:1px; background: linear-gradient(90deg,rgba(153,153,153,0)0%,rgba(153,153,153,1)50%,rgba(153,153,153,0)100%); }
+    :root { 
+      --primary: #000000; 
+      --secondary: #999999; 
+      --accent: #ffffff;
+      --gold: #D4AF37;
+      --platinum: #E5E4E2;
+    }
+    body { 
+      font-family: 'Inter', sans-serif; 
+      background-color: var(--primary); 
+      color: var(--accent); 
+      overflow-x: hidden; 
+    }
+    .chrome-gradient { 
+      background: linear-gradient(135deg,#999 0%,#fff 100%); 
+      -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; 
+    }
+    .gold-gradient {
+      background: linear-gradient(135deg, #D4AF37 0%, #F9E076 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-blur { 
+      backdrop-filter: blur(10px); 
+      -webkit-backdrop-filter: blur(10px); 
+    }
+    .section-divider { 
+      height:1px; 
+      background: linear-gradient(90deg,rgba(153,153,153,0)0%,rgba(153,153,153,1)50%,rgba(153,153,153,0)100%); 
+    }
+    .elite-border {
+      border: 1px solid var(--gold);
+      position: relative;
+    }
+    .elite-border::before {
+      content: '';
+      position: absolute;
+      top: -5px;
+      left: -5px;
+      right: -5px;
+      bottom: -5px;
+      border: 1px solid var(--gold);
+      border-radius: 20px;
+      z-index: -1;
+      opacity: 0.5;
+    }
+    .elite-card {
+      background: linear-gradient(145deg, #1a1a1a 0%, #0d0d0d 100%);
+      transition: transform 0.3s ease;
+    }
+    .elite-card:hover {
+      transform: translateY(-5px);
+    }
+    .elite-input {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.3);
+      transition: all 0.3s ease;
+    }
+    .elite-input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+    .elite-button {
+      background: linear-gradient(135deg, #D4AF37 0%, #F9E076 100%);
+      color: #000;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    .elite-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+    }
+    .elite-title {
+      font-family: 'Playfair Display', serif;
+    }
+    .watermark {
+      position: absolute;
+      opacity: 0.03;
+      font-size: 15rem;
+      font-weight: 900;
+      z-index: 0;
+      pointer-events: none;
+      font-family: 'Playfair Display', serif;
+    }
   </style>
 </head>
 <body>
   <!-- Навигация -->
   <nav class="fixed top-0 w-full bg-black bg-opacity-50 nav-blur z-50 border-b border-gray-800">
-    <div class="flex justify-between items-center px-4 py-3 max-w-3xl mx-auto">
+    <div class="flex justify-between items-center px-4 py-3 max-w-6xl mx-auto">
       <img src="https://static.readdy.ai/image/0cc4516bfb0690645c544babd37fe3fb/a9760d664bf155c08db6c21d9e11c8c7.png" alt="KODA" class="h-8">
-      <ul class="flex space-x-4">
-        <li><a href="#hero" class="text-gray-400 hover:text-white">Главная</a></li>
-        <li><a href="#about" class="text-gray-400 hover:text-white">О нас</a></li>
-        <li><a href="#subscription" class="text-gray-400 hover:text-white">Подписка</a></li>
-        <li><a href="#releases" class="text-gray-400 hover:text-white">Релизы</a></li>
-        <li><a href="#projects" class="text-gray-400 hover:text-white">Проекты</a></li>
-        <li><a href="#bunker" class="text-gray-400 hover:text-white">Бункер</a></li>
-        <li><a href="#contacts" class="text-gray-400 hover:text-white">Контакты</a></li>
+      <ul class="flex space-x-6">
+        <li><a href="#hero" class="text-gray-400 hover:text-white transition-colors">Главная</a></li>
+        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">О нас</a></li>
+        <li><a href="#subscription" class="text-gray-400 hover:text-white transition-colors">Подписка</a></li>
+        <li><a href="#releases" class="text-gray-400 hover:text-white transition-colors">Релизы</a></li>
+        <li><a href="#projects" class="text-gray-400 hover:text-white transition-colors">Проекты</a></li>
+        <li><a href="#artist-application" class="text-gold-400 hover:text-gold-300 font-medium gold-gradient transition-colors">Для артистов</a></li>
+        <li><a href="#contacts" class="text-gray-400 hover:text-white transition-colors">Контакты</a></li>
       </ul>
     </div>
   </nav>
 
   <div class="content-wrapper pt-20 space-y-20">
     <!-- Hero -->
-    <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-4 py-16 text-center">
-      <img src="https://static.readdy.ai/image/0cc4516bfb0690645c544babd37fe3fb/a9760d664bf155c08db6c21d9e11c8c7.png" class="w-24 h-24 mb-8" alt="KODA logo">
-      <h1 class="text-4xl font-bold mb-4">KODA не копирует индустрию. Мы создаем новую.</h1>
-      <p class="text-gray-300 mb-8 max-w-xl">Независимый музыкальный лейбл, продакшн и студия — всё в одной системе. Присоединяйся к движению.</p>
-      <a href="#subscription" class="bg-white text-black px-8 py-4 rounded-button font-medium hover:bg-opacity-90 transition-all">Присоединиться</a>
+    <section id="hero" class="min-h-screen flex flex-col justify-center items-center px-4 py-16 text-center relative overflow-hidden">
+      <div class="watermark left-10 top-1/4 rotate-12">KODA</div>
+      <div class="watermark right-10 bottom-1/4 -rotate-12">ELITE</div>
+      <img src="https://static.readdy.ai/image/0cc4516bfb0690645c544babd37fe3fb/a9760d664bf155c08db6c21d9e11c8c7.png" class="w-24 h-24 mb-8 z-10" alt="KODA logo">
+      <h1 class="text-5xl font-bold mb-6 z-10">KODA не копирует индустрию.<br>Мы создаем новую.</h1>
+      <p class="text-gray-300 mb-8 max-w-2xl z-10">Независимый музыкальный лейбл, продакшн и студия — всё в одной системе. Присоединяйся к движению.</p>
+      <div class="flex gap-4 z-10">
+        <a href="#subscription" class="bg-white text-black px-8 py-4 rounded-button font-medium hover:bg-opacity-90 transition-all">Присоединиться</a>
+        <a href="#artist-application" class="border border-gold-500 text-gold-400 px-8 py-4 rounded-button font-medium hover:bg-gold-900 hover:bg-opacity-20 transition-all">Элитная заявка</a>
+      </div>
     </section>
 
     <!-- О нас -->
-    <section id="about" class="py-16 px-4">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-6 chrome-gradient">О KODA</h2>
-        <p class="text-gray-300 mb-6">KODA — музыкальный продакшн нового типа. Мы разрабатываем звук, создаём визуальный контент, продвигаем релизы и строим сообщество. Это вызов старой системе.</p>
-        <p class="text-white font-medium">KODA — не просто студия: это твой путь к музыкальным вершинам.</p>
+    <section id="about" class="py-16 px-4 relative">
+      <div class="max-w-4xl mx-auto text-center relative z-10">
+        <h2 class="text-4xl font-bold mb-6 chrome-gradient">О KODA</h2>
+        <p class="text-gray-300 mb-6 text-lg">KODA — музыкальный продакшн нового типа. Мы разрабатываем звук, создаём визуальный контент, продвигаем релизы и строим сообщество. Это вызов старой системе.</p>
+        <p class="text-white font-medium text-xl">KODA — не просто студия: это твой путь к музыкальным вершинам.</p>
       </div>
       <div class="section-divider my-16"></div>
     </section>
 
     <!-- Подписка -->
     <section id="subscription" class="py-16 px-4 bg-gray-900 bg-opacity-30">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-8 chrome-gradient">Подписка для артистов</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          <div class="bg-black bg-opacity-50 p-8 rounded border border-gray-800">
-            <i class="ri-mic-line ri-3x mb-4"></i>
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-12 chrome-gradient">Подписка для артистов</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="bg-black bg-opacity-50 p-8 rounded-lg border border-gray-800 hover:border-gold-500 transition-all">
+            <i class="ri-mic-line ri-3x mb-4 gold-gradient"></i>
             <h3 class="text-xl font-semibold mb-2">Доступ к студии 24/7</h3>
             <p class="text-gray-400">Запись круглосуточно: лучшее оборудование и профессиональный звукорежиссёр всегда на связи.</p>
           </div>
-          <div class="bg-black bg-opacity-50 p-8 rounded border border-gray-800">
-            <i class="ri-settings-4-line ri-3x mb-4"></i>
+          <div class="bg-black bg-opacity-50 p-8 rounded-lg border border-gray-800 hover:border-gold-500 transition-all">
+            <i class="ri-settings-4-line ri-3x mb-4 gold-gradient"></i>
             <h3 class="text-xl font-semibold mb-2">Продакшн под ключ</h3>
             <p class="text-gray-400">От идеи до мастеринга: мы создаём треки, которые звучат в топах.</p>
           </div>
-          <div class="bg-black bg-opacity-50 p-8 rounded border border-gray-800">
-            <i class="ri-camera-line ri-3x mb-4"></i>
+          <div class="bg-black bg-opacity-50 p-8 rounded-lg border border-gray-800 hover:border-gold-500 transition-all">
+            <i class="ri-camera-line ri-3x mb-4 gold-gradient"></i>
             <h3 class="text-xl font-semibold mb-2">Визуальный контент</h3>
             <p class="text-gray-400">Клипы, обложки и соцформат: визуал, который зацепит аудиторию.</p>
           </div>
-          <div class="bg-black bg-opacity-50 p-8 rounded border border-gray-800">
-            <i class="ri-global-line ri-3x mb-4"></i>
+          <div class="bg-black bg-opacity-50 p-8 rounded-lg border border-gray-800 hover:border-gold-500 transition-all">
+            <i class="ri-global-line ri-3x mb-4 gold-gradient"></i>
             <h3 class="text-xl font-semibold mb-2">Дистрибуция и промо</h3>
             <p class="text-gray-400">Выводим твои треки на все платформы и сопровождаем промо-кампанию.</p>
           </div>
@@ -99,20 +235,88 @@
       <div class="section-divider my-16"></div>
     </section>
 
+    <!-- Элитная заявка для артистов -->
+    <section id="artist-application" class="py-20 px-4 relative overflow-hidden">
+      <div class="absolute inset-0 bg-black opacity-60 z-0"></div>
+      <div class="absolute inset-0 z-0" style="background: url('https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center; background-size: cover;"></div>
+      
+      <div class="max-w-4xl mx-auto relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-5xl font-bold mb-4 elite-title gold-gradient">Элитная заявка</h2>
+          <p class="text-gray-300 max-w-2xl mx-auto text-xl">Только для избранных артистов. Заполните форму, чтобы стать частью KODA и получить эксклюзивные условия сотрудничества.</p>
+        </div>
+        
+        <div class="elite-card elite-border rounded-elite p-8 shadow-elite backdrop-blur-sm">
+          <div class="flex justify-center mb-8">
+            <div class="bg-black bg-opacity-70 p-4 rounded-full border border-gold-500">
+              <i class="ri-star-fill ri-4x gold-gradient"></i>
+            </div>
+          </div>
+          
+          <form id="artistForm" class="space-y-6">
+            <div id="formSuccess" class="hidden bg-green-900 bg-opacity-50 p-4 rounded-lg border border-green-500 text-center mb-6">
+              <i class="ri-checkbox-circle-fill ri-2x text-green-400 mb-2"></i>
+              <p class="text-green-300 font-medium">Ваша заявка принята! Мы свяжемся с вами в течение 48 часов.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-gold-400 mb-2">Ваше имя / Псевдоним *</label>
+                <input type="text" name="name" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none" required>
+              </div>
+              <div>
+                <label class="block text-gold-400 mb-2">Контактный email *</label>
+                <input type="email" name="email" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none" required>
+              </div>
+            </div>
+            
+            <div>
+              <label class="block text-gold-400 mb-2">Ссылка на портфолио (SoundCloud, Spotify и т.д.) *</label>
+              <input type="url" name="portfolio" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none" required>
+            </div>
+            
+            <div>
+              <label class="block text-gold-400 mb-2">Опыт в музыке (лет, проекты, достижения)</label>
+              <textarea name="experience" rows="3" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none"></textarea>
+            </div>
+            
+            <div>
+              <label class="block text-gold-400 mb-2">Ваши цели и ожидания от сотрудничества с KODA</label>
+              <textarea name="goals" rows="3" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none"></textarea>
+            </div>
+            
+            <div class="pt-4">
+              <button type="submit" class="w-full py-4 rounded-elite elite-button hover:shadow-elite transition-all">
+                <i class="ri-send-plane-fill ri-lg align-middle mr-2"></i> Отправить заявку
+              </button>
+            </div>
+            
+            <div class="text-center text-gray-500 text-sm mt-6">
+              <p>Мы рассмотрим вашу заявку в течение 48 часов. Только 5% заявок получают приглашение.</p>
+              <p class="mt-2 flex items-center justify-center">
+                <i class="ri-lock-fill ri-sm mr-1"></i> Все данные защищены и не передаются третьим лицам
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="section-divider my-16"></div>
+    </section>
+
     <!-- Релизы -->
     <section id="releases" class="py-16 px-4 bg-black bg-opacity-30">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-8 chrome-gradient">Релизы</h2>
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-12 chrome-gradient">Релизы</h2>
         <div class="space-y-8">
-          <div class="bg-gray-900 p-6 rounded border border-gray-800">
+          <div class="bg-gray-900 p-8 rounded-lg border border-gray-800 hover:border-gold-500 transition-all">
             <h3 class="text-2xl font-semibold mb-2">ANTAGONIST — "4 жанра"</h3>
-            <p class="text-gray-400 mb-2">Серия альбомов, созданных за месяц в тесной коллаборации со студией KODA. Экспериментальный саунд и глубокий художественный замысел.</p>
-            <a href="#" class="text-blue-400 hover:underline">Слушать на платформах</a>
+            <p class="text-gray-400 mb-4">Серия альбомов, созданных за месяц в тесной коллаборации со студией KODA. Экспериментальный саунд и глубокий художественный замысел.</p>
+            <a href="#" class="inline-block gold-gradient font-medium px-6 py-2 rounded-full hover:opacity-90 transition-opacity">Слушать на платформах</a>
           </div>
-          <div class="bg-gray-900 p-6 rounded border border-gray-800">
+          <div class="bg-gray-900 p-8 rounded-lg border border-gray-800 hover:border-gold-500 transition-all">
             <h3 class="text-2xl font-semibold mb-2">UGLY404 — TikTok бэнгер</h3>
-            <p class="text-gray-400 mb-2">Работал в студии KODA над финальным звучанием. Трек собрал миллионы прослушиваний и органические видео в TikTok.</p>
-            <a href="#" class="text-blue-400 hover:underline">Слушать на платформах</a>
+            <p class="text-gray-400 mb-4">Работал в студии KODA над финальным звучанием. Трек собрал миллионы прослушиваний и органические видео в TikTok.</p>
+            <a href="#" class="inline-block gold-gradient font-medium px-6 py-2 rounded-full hover:opacity-90 transition-opacity">Слушать на платформах</a>
           </div>
         </div>
       </div>
@@ -121,20 +325,26 @@
 
     <!-- Проекты -->
     <section id="projects" class="py-16 px-4">
-      <div class="max-w-2xl mx-auto">
-        <h2 class="text-3xl font-bold mb-6 chrome-gradient text-center">Проекты</h2>
-        <p class="text-gray-300 mb-8 text-center">Мы создаём истории, которые остаются. От коллабораций до визуальных экспериментов — посмотри, как работают настоящие профи.</p>
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-4xl font-bold mb-8 chrome-gradient text-center">Проекты</h2>
+        <p class="text-gray-300 mb-12 text-center text-lg">Мы создаём истории, которые остаются. От коллабораций до визуальных экспериментов — посмотри, как работают настоящие профи.</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          <!-- Example project card -->
-          <div class="bg-black bg-opacity-50 rounded overflow-hidden">
-            <img src="https://via.placeholder.com/400x250" alt="Project image" class="w-full h-48 object-cover">
-            <div class="p-4">
-              <h3 class="text-xl font-semibold mb-2">Проект имя</h3>
-              <p class="text-gray-400 text-sm mb-4">Описание проекта: от идеи до финальной реализации.</p>
-              <a href="#" class="text-blue-400 hover:underline">Узнать больше</a>
+          <div class="bg-black bg-opacity-50 rounded-lg overflow-hidden border border-gray-800 hover:border-gold-500 transition-all">
+            <img src="https://images.unsplash.com/photo-1496293455970-f8581aae0e3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Project image" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">Проект "Новый звук"</h3>
+              <p class="text-gray-400 text-sm mb-4">Экспериментальная сессия звукозаписи с использованием уникальных техник.</p>
+              <a href="#" class="text-gold-400 hover:underline flex items-center">Узнать больше <i class="ri-arrow-right-line ml-1"></i></a>
             </div>
           </div>
-          <!-- Add more project cards as needed -->
+          <div class="bg-black bg-opacity-50 rounded-lg overflow-hidden border border-gray-800 hover:border-gold-500 transition-all">
+            <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Project image" class="w-full h-64 object-cover">
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">KODA Live Sessions</h3>
+              <p class="text-gray-400 text-sm mb-4">Эксклюзивные живые выступления в студии с профессиональной съемкой.</p>
+              <a href="#" class="text-gold-400 hover:underline flex items-center">Узнать больше <i class="ri-arrow-right-line ml-1"></i></a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="section-divider my-16"></div>
@@ -143,11 +353,13 @@
     <!-- Бункер -->
     <section id="bunker" class="py-16 px-4 bg-gray-900 bg-opacity-30">
       <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-6 chrome-gradient">KODA Бункер</h2>
-        <p class="text-gray-400 mb-6">Эксклюзивный контент и инсайды только для своих. Введи код доступа, чтобы получить доступ.</p>
+        <h2 class="text-4xl font-bold mb-8 chrome-gradient">KODA Бункер</h2>
+        <p class="text-gray-400 mb-8 text-lg">Эксклюзивный контент и инсайды только для своих. Введи код доступа, чтобы получить доступ.</p>
         <div class="max-w-xs mx-auto">
-          <input type="password" placeholder="Код доступа" class="w-full px-4 py-3 mb-4 rounded-button bg-gray-800 border border-gray-700 text-sm">
-          <button class="w-full bg-white text-black px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition-all">Войти</button>
+          <input type="password" placeholder="Код доступа" class="w-full px-6 py-4 mb-6 rounded-elite bg-gray-800 border border-gray-700 text-sm focus:border-gold-500 focus:ring-2 focus:ring-gold-500 focus:ring-opacity-50">
+          <button class="w-full elite-button px-6 py-4 rounded-elite font-medium hover:shadow-elite transition-all">
+            <i class="ri-key-fill ri-lg align-middle mr-2"></i> Войти
+          </button>
         </div>
       </div>
       <div class="section-divider my-16"></div>
@@ -155,30 +367,67 @@
 
     <!-- Контакты -->
     <section id="contacts" class="py-16 px-4">
-      <div class="max-w-2xl mx-auto text-center">
-        <h2 class="text-3xl font-bold mb-6 chrome-gradient">Контакты</h2>
-        <form class="space-y-4 max-w-md mx-auto">
-          <input type="text" placeholder="Ваше имя" class="w-full px-4 py-3 rounded-button bg-gray-800 border border-gray-700 text-sm">
-          <input type="email" placeholder="Ваш email" class="w-full px-4 py-3 rounded-button bg-gray-800 border border-gray-700 text-sm">
-          <textarea rows="4" placeholder="Ваше сообщение" class="w-full px-4 py-3 rounded-button bg-gray-800 border border-gray-700 text-sm"></textarea>
-          <button type="submit" class="w-full bg-white text-black px-4 py-3 rounded-button font-medium hover:bg-opacity-90 transition-all">Отправить</button>
+      <div class="max-w-4xl mx-auto text-center">
+        <h2 class="text-4xl font-bold mb-12 chrome-gradient">Контакты</h2>
+        <form class="space-y-6 max-w-md mx-auto">
+          <input type="text" placeholder="Ваше имя" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none">
+          <input type="email" placeholder="Ваш email" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none">
+          <textarea rows="4" placeholder="Ваше сообщение" class="w-full px-4 py-3 rounded-elite elite-input text-white focus:outline-none"></textarea>
+          <button type="submit" class="w-full elite-button py-4 rounded-elite hover:shadow-elite transition-all">
+            <i class="ri-send-plane-fill ri-lg align-middle mr-2"></i> Отправить
+          </button>
         </form>
       </div>
     </section>
   </div>
 
   <!-- Footer -->
-  <footer class="bg-black bg-opacity-90 py-6">
-    <div class="max-w-3xl mx-auto flex justify-around text-gray-400">
-      <a href="#hero" class="hover:text-white">Главная</a>
-      <a href="#about" class="hover:text-white">О нас</a>
-      <a href="#subscription" class="hover:text-white">Подписка</a>
-      <a href="#releases" class="hover:text-white">Релизы</a>
-      <a href="#projects" class="hover:text-white">Проекты</a>
-      <a href="#bunker" class="hover:text-white">Бункер</a>
-      <a href="#contacts" class="hover:text-white">Контакты</a>
+  <footer class="bg-black bg-opacity-90 py-8 border-t border-gray-800">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-6 md:mb-0">
+          <img src="https://static.readdy.ai/image/0cc4516bfb0690645c544babd37fe3fb/a9760d664bf155c08db6c21d9e11c8c7.png" alt="KODA" class="h-8">
+          <p class="text-gray-600 mt-2 text-sm">Музыкальный лейбл нового поколения</p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div>
+            <h4 class="text-white font-medium mb-4">Навигация</h4>
+            <ul class="space-y-2">
+              <li><a href="#hero" class="text-gray-400 hover:text-white text-sm transition-colors">Главная</a></li>
+              <li><a href="#about" class="text-gray-400 hover:text-white text-sm transition-colors">О нас</a></li>
+              <li><a href="#subscription" class="text-gray-400 hover:text-white text-sm transition-colors">Подписка</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-medium mb-4">Контент</h4>
+            <ul class="space-y-2">
+              <li><a href="#releases" class="text-gray-400 hover:text-white text-sm transition-colors">Релизы</a></li>
+              <li><a href="#projects" class="text-gray-400 hover:text-white text-sm transition-colors">Проекты</a></li>
+              <li><a href="#bunker" class="text-gray-400 hover:text-white text-sm transition-colors">Бункер</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-medium mb-4">Сотрудничество</h4>
+            <ul class="space-y-2">
+              <li><a href="#artist-application" class="text-gold-400 hover:text-gold-300 text-sm transition-colors">Для артистов</a></li>
+              <li><a href="#contacts" class="text-gray-400 hover:text-white text-sm transition-colors">Контакты</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-white font-medium mb-4">Соцсети</h4>
+            <div class="flex space-x-4">
+              <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ri-instagram-line ri-lg"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ri-spotify-line ri-lg"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ri-youtube-line ri-lg"></i></a>
+              <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="ri-telegram-line ri-lg"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p class="text-gray-600 text-sm">&copy; 2025 KODA Music. Все права защищены.</p>
+      </div>
     </div>
-    <p class="text-center text-gray-600 mt-4">&copy; 2025 KODA Music. Все права защищены.</p>
   </footer>
 </body>
 </html>
