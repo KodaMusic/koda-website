@@ -1,255 +1,208 @@
-<!DOCTYPE html>
-<html lang="ru" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KODA | Premium Music Production & Label Services</title>
-  <meta name="description" content="Industry-leading music production studio and record label. Home to ANTAGONIST, UGLY404 and collaborating with mayot, scally milano, 4n way and other top artists.">
-  
-  <!-- Preload critical resources -->
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" as="style">
-  <link rel="preload" href="https://unpkg.com/aos@2.3.1/dist/aos.css" as="style">
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" as="font" crossorigin>
-  
-  <!-- CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: '#000000',
-            secondary: '#1a1a1a',
-            accent: '#D4AF37',
-            dark: '#0a0a0a',
-            light: '#f8f8f8',
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            display: ['Playfair Display', 'serif']
-          },
-          animation: {
-            'float': 'float 6s ease-in-out infinite',
-            'pulse-slow': 'pulse 6s infinite',
-          }
-        }
+// ANTAGONIST: QUADRA — интерактивный сайт с концепцией 4 альбомов и битмейкеров
+// Полная версия: анимации, звуковые эффекты, фон, кастомные шрифты, интерактивный курсор, звуковой слой
+
+// УСТАНОВКА:
+// npx create-next-app@latest antagonist-quadra --typescript
+// cd antagonist-quadra
+// npm install tailwindcss framer-motion @heroicons/react @fontsource/anton howler
+// npx tailwindcss init -p
+
+// tailwind.config.js
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: ["./pages/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
+  theme: {
+    extend: {
+      colors: {
+        fire: "#FF3B3B",
+        water: "#3B9CFF",
+        air: "#A1F0E2",
+        earth: "#4D4637",
+        bg: "#0D0D0D",
+      },
+      fontFamily: {
+        display: ['"Anton"', 'sans-serif'],
+      },
+      backgroundImage: {
+        'noise': "url('/noise.png')"
       }
-    }
-  </script>
-  
-  <style>
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-20px); }
-    }
-    
-    .gradient-text {
-      background: linear-gradient(90deg, #D4AF37 0%, #F9E076 50%, #D4AF37 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-size: 200% auto;
-      animation: gradient 3s linear infinite;
-    }
-    
-    @keyframes gradient {
-      0% { background-position: 0% center; }
-      100% { background-position: 200% center; }
-    }
-    
-    .parallax {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    
-    .glass-effect {
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      background: rgba(10, 10, 10, 0.7);
-    }
-    
-    .hover-scale {
-      transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    }
-    
-    .hover-scale:hover {
-      transform: scale(1.03);
-    }
-    
-    .text-stroke {
-      -webkit-text-stroke: 1px #D4AF37;
-      color: transparent;
-    }
-  </style>
-</head>
+    },
+  },
+  plugins: [],
+}
 
-<body class="bg-dark text-light font-sans antialiased">
-  <!-- Navigation -->
-  <nav class="fixed w-full z-50 glass-effect border-b border-gray-900">
-    <div class="container mx-auto px-6 py-4">
-      <div class="flex justify-between items-center">
-        <a href="/" class="text-2xl font-display font-bold">
-          <span class="gradient-text">KODA</span>
-        </a>
-        
-        <div class="hidden lg:flex space-x-10">
-          <a href="#studio" class="hover:text-accent transition-all">Studio</a>
-          <a href="#artists" class="hover:text-accent transition-all">Artists</a>
-          <a href="#releases" class="hover:text-accent transition-all">Releases</a>
-          <a href="#services" class="hover:text-accent transition-all">Services</a>
-          <a href="#contact" class="hover:text-accent transition-all">Contact</a>
-        </div>
-        
-        <div class="flex items-center space-x-4">
-          <button class="lg:hidden focus:outline-none" id="menu-toggle">
-            <i class="fas fa-bars text-xl"></i>
-          </button>
-          <a href="#application" class="bg-accent text-dark px-6 py-2 rounded-full font-medium hover:bg-opacity-90 transition">
-            Work with us
-          </a>
-        </div>
-      </div>
-      
-      <!-- Mobile menu -->
-      <div class="lg:hidden hidden pt-4" id="mobile-menu">
-        <div class="flex flex-col space-y-4">
-          <a href="#studio" class="hover:text-accent transition-all">Studio</a>
-          <a href="#artists" class="hover:text-accent transition-all">Artists</a>
-          <a href="#releases" class="hover:text-accent transition-all">Releases</a>
-          <a href="#services" class="hover:text-accent transition-all">Services</a>
-          <a href="#contact" class="hover:text-accent transition-all">Contact</a>
-        </div>
-      </div>
-    </div>
-  </nav>
+// styles/globals.css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body {
+  @apply bg-bg text-white font-display;
+  cursor: none;
+  background-image: url('/noise.png');
+  background-blend-mode: overlay;
+}
 
-  <!-- Hero Section -->
-  <section class="min-h-screen flex items-center justify-center relative overflow-hidden">
-    <div class="absolute inset-0 parallax" style="background-image: url('https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80');"></div>
-    <div class="absolute inset-0 bg-dark bg-opacity-80"></div>
-    
-    <div class="container mx-auto px-6 relative z-10 py-20" data-aos="fade-up">
-      <div class="max-w-4xl mx-auto text-center">
-        <h1 class="text-5xl md:text-7xl font-display font-bold mb-6">
-          <span class="gradient-text">Premium Music</span><br>
-          Production & Label
-        </h1>
-        <p class="text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-          Industry-leading studio working with top artists worldwide. Home to ANTAGONIST, UGLY404 and collaborating with mayot, scally milano, 4n way and others.
-        </p>
-        <div class="flex flex-col sm:flex-row justify-center gap-4">
-          <a href="#application" class="bg-accent text-dark px-8 py-4 rounded-full font-medium hover:bg-opacity-90 transition text-center">
-            Book Studio Time
-          </a>
-          <a href="#releases" class="border border-accent text-accent px-8 py-4 rounded-full font-medium hover:bg-accent hover:bg-opacity-10 transition text-center">
-            Latest Releases
-          </a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="absolute bottom-10 left-0 right-0 flex justify-center animate-bounce">
-      <a href="#studio" class="text-gray-400 hover:text-accent transition">
-        <i class="fas fa-chevron-down text-2xl"></i>
-      </a>
-    </div>
-  </section>
+// pages/_app.tsx
+import '../styles/globals.css'
+import type { AppProps } from 'next/app'
+import Cursor from '../components/Cursor'
 
-  <!-- Studio Section -->
-  <section id="studio" class="py-28 relative">
-    <div class="container mx-auto px-6">
-      <div class="flex flex-col lg:flex-row items-center gap-16">
-        <div class="lg:w-1/2" data-aos="fade-right">
-          <h2 class="text-4xl font-display font-bold mb-6">
-            <span class="text-stroke">World Class</span><br>
-            <span class="gradient-text">Recording Studio</span>
-          </h2>
-          <p class="text-gray-300 mb-8 text-lg">
-            Our flagship studio in Moscow is equipped with state-of-the-art technology and acoustically treated to perfection. 
-            We've hosted sessions for mayot, scally milano, 4n way, uglystephan and other top artists.
-          </p>
-          
-          <div class="grid grid-cols-2 gap-6 mb-10">
-            <div class="flex items-start">
-              <div class="text-accent mr-4 mt-1">
-                <i class="fas fa-check-circle text-xl"></i>
-              </div>
-              <div>
-                <h4 class="font-bold mb-1">Neumann U87 Ai</h4>
-                <p class="text-gray-400 text-sm">Industry standard microphone</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start">
-              <div class="text-accent mr-4 mt-1">
-                <i class="fas fa-check-circle text-xl"></i>
-              </div>
-              <div>
-                <h4 class="font-bold mb-1">SSL Origin</h4>
-                <p class="text-gray-400 text-sm">Analog mixing console</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start">
-              <div class="text-accent mr-4 mt-1">
-                <i class="fas fa-check-circle text-xl"></i>
-              </div>
-              <div>
-                <h4 class="font-bold mb-1">Pro Tools HDX</h4>
-                <p class="text-gray-400 text-sm">Professional DAW setup</p>
-              </div>
-            </div>
-            
-            <div class="flex items-start">
-              <div class="text-accent mr-4 mt-1">
-                <i class="fas fa-check-circle text-xl"></i>
-              </div>
-              <div>
-                <h4 class="font-bold mb-1">Yamaha NS-10</h4>
-                <p class="text-gray-400 text-sm">Legendary studio monitors</p>
-              </div>
-            </div>
-          </div>
-          
-          <a href="#contact" class="inline-flex items-center text-accent border-b border-accent pb-1 hover:opacity-80 transition">
-            Visit our studio
-            <i class="fas fa-arrow-right ml-2"></i>
-          </a>
-        </div>
-        
-        <div class="lg:w-1/2" data-aos="fade-left">
-          <div class="splide" aria-label="Studio Photos">
-            <div class="splide__track">
-              <ul class="splide__list">
-                <li class="splide__slide">
-                  <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-                       alt="Studio Control Room" class="w-full h-auto rounded-xl hover-scale">
-                </li>
-                <li class="splide__slide">
-                  <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-                       alt="Vocal Booth" class="w-full h-auto rounded-xl hover-scale">
-                </li>
-                <li class="splide__slide">
-                  <img src="https://images.unsplash.com/photo-1596727147705-61a532a659bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" 
-                       alt="Equipment" class="w-full h-auto rounded-xl hover-scale">
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+export default function App({ Component, pageProps }: AppProps) {
+  return (
+    <>
+      <Cursor />
+      <Component {...pageProps} />
+    </>
+  )
+}
 
-  <!-- Artists Section -->
-  <section id="artists" class="py-28 bg-secondary">
-    <div class="container mx-auto px-6">
-      <div class="text-center mb-20" data-aos="fade-up">
-        <h2 class="text-4
+// components/Cursor.tsx
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+
+export default function Cursor() {
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      setPosition({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener('mousemove', move)
+    return () => window.removeEventListener('mousemove', move)
+  }, [])
+
+  return (
+    <motion.div
+      className="fixed top-0 left-0 w-6 h-6 rounded-full bg-white z-50 pointer-events-none mix-blend-difference"
+      animate={{ x: position.x - 12, y: position.y - 12 }}
+      transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+    />
+  )
+}
+
+// components/AlbumBlock.tsx
+import { motion } from 'framer-motion'
+import { useState } from 'react'
+import { Howl } from 'howler'
+
+const hoverSound = new Howl({
+  src: ['/hover.mp3'], // Подставь свой звук
+  volume: 0.3,
+})
+
+type AlbumProps = {
+  title: string
+  color: string
+  producer: string
+  onClick: () => void
+}
+
+export default function AlbumBlock({ title, color, producer, onClick }: AlbumProps) {
+  const [hovered, setHovered] = useState(false)
+
+  const handleHover = () => {
+    hoverSound.play()
+    setHovered(true)
+  }
+
+  return (
+    <motion.div
+      className="w-full h-full flex items-center justify-center cursor-pointer relative overflow-hidden"
+      style={{ backgroundColor: hovered ? color : '#0D0D0D' }}
+      onMouseEnter={handleHover}
+      onMouseLeave={() => setHovered(false)}
+      onClick={onClick}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      whileHover={{ scale: 1.02 }}
+    >
+      <motion.div className="absolute inset-0 bg-noise opacity-10" />
+      <div className="text-center z-10">
+        <h2 className="text-4xl font-bold tracking-widest uppercase">{title}</h2>
+        {hovered && (
+          <motion.p className="text-md mt-2" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+            prod. by {producer}
+          </motion.p>
+        )}
+      </div>
+    </motion.div>
+  )
+}
+
+// pages/index.tsx
+import Head from 'next/head'
+import AlbumBlock from '../components/AlbumBlock'
+import { useRouter } from 'next/router'
+import { motion } from 'framer-motion'
+
+export default function Home() {
+  const router = useRouter()
+
+  const albums = [
+    { title: 'GENESIS', color: '#FF3B3B', producer: 'LORENZ', path: '/genesis' },
+    { title: 'SINK', color: '#3B9CFF', producer: 'PURPLEHAZE', path: '/sink' },
+    { title: 'INHALE', color: '#A1F0E2', producer: 'MEWTW0O', path: '/inhale' },
+    { title: 'ROOTS', color: '#4D4637', producer: 'LOCO', path: '/roots' },
+  ]
+
+  return (
+    <>
+      <Head>
+        <title>ANTAGONIST: QUADRA</title>
+        <meta name="description" content="4 альбома. 4 битмейкера. 1 Антагонист." />
+      </Head>
+      <main className="h-screen w-screen grid grid-cols-2 grid-rows-2">
+        {albums.map((album, idx) => (
+          <AlbumBlock
+            key={idx}
+            title={album.title}
+            color={album.color}
+            producer={album.producer}
+            onClick={() => router.push(album.path)}
+          />
+        ))}
+      </main>
+    </>
+  )
+}
+
+// pages/genesis.tsx — страница одного альбома
+export default function Genesis() {
+  return (
+    <div className="bg-fire h-screen w-screen flex flex-col items-center justify-center text-white text-center p-6">
+      <h1 className="text-6xl font-bold uppercase tracking-wide">GENESIS</h1>
+      <p className="text-lg mt-4">Produced by LORENZ</p>
+      {/* ВСТАВЬ ВИЗУАЛ/АУДИО/ОБЛОЖКУ/ТРЕКЛИСТ ЗДЕСЬ */}
+    </div>
+  )
+}
+
+// pages/sink.tsx
+export default function Sink() {
+  return (
+    <div className="bg-water h-screen w-screen flex flex-col items-center justify-center text-white text-center p-6">
+      <h1 className="text-6xl font-bold uppercase tracking-wide">SINK</h1>
+      <p className="text-lg mt-4">Produced by PURPLEHAZE</p>
+    </div>
+  )
+}
+
+// pages/inhale.tsx
+export default function Inhale() {
+  return (
+    <div className="bg-air h-screen w-screen flex flex-col items-center justify-center text-white text-center p-6">
+      <h1 className="text-6xl font-bold uppercase tracking-wide">INHALE</h1>
+      <p className="text-lg mt-4">Produced by MEWTW0O</p>
+    </div>
+  )
+}
+
+// pages/roots.tsx
+export default function Roots() {
+  return (
+    <div className="bg-earth h-screen w-screen flex flex-col items-center justify-center text-white text-center p-6">
+      <h1 className="text-6xl font-bold uppercase tracking-wide">ROOTS</h1>
+      <p className="text-lg mt-4">Produced by LOCO</p>
+    </div>
+  )
+}
